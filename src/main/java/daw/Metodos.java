@@ -5,8 +5,10 @@
 package daw;
 
 import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -43,4 +45,23 @@ public class Metodos {
             System.out.println("Probablemente la ruta esté mal escrita.");
         }
     }
+    
+    //BORRAR ARCHIVO
+        public static void borrarElemento(String ruta) {
+        Path file = Paths.get("./aplicacionesJSON/"+ruta);
+        try {
+            Files.delete(file);
+        } catch (NoSuchFileException nsfe) {
+            System.out.println("No se puede borrar " + ruta + " porque no existe");
+        } catch (DirectoryNotEmptyException dnee) {
+            System.out.println("No se puede borrar el directorio porque no está vacío");
+        } catch (IOException e) {
+            System.out.println("Problema borrando el elemento " + ruta);
+        }
+    }
+    
+    //COMPROBAR SI EXISTE UN ARCHIVO
+        public static boolean existeArchivo(String nombre){
+            return Files.exists(Paths.get("./aplicacionesJSON/"+nombre));
+        }
 }

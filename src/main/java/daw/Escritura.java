@@ -95,12 +95,18 @@ public class Escritura {
      public static void generarFicheroJSONPorObjeto(List<App> lista) throws IOException{
         for (int i = 0; i < lista.size(); i++) {
             for (App app : lista) {
-                Metodos.crearFichero("./aplicacionesJSON/"+app.getNombre()+".json");
+                ObjectMapper mapeador = new ObjectMapper();
+        
+        // Permite a mapeador usar fechas según java time
+        mapeador.registerModule(new JavaTimeModule());
+        
+        // Formato JSON bien formateado. Si se comenta, el fichero queda minificado
+        mapeador.configure(SerializationFeature.INDENT_OUTPUT, true);
+
+        // Escribe en un fichero JSON el catálogo de muebles
+        mapeador.writeValue(new File("./aplicacionesJSON/"+app.getNombre()+".json"), app);
             }
         }
-    
-    
     }
-     
-     //
+
 }
